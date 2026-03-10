@@ -19,7 +19,7 @@ class Vlans extends Component
         $this->validate(['olt' => 'required', 'vlan_id' => 'required', 'descripcion' => 'required']);
         Vlan::create(['olt' => $this->olt, 'vlan_id' => $this->vlan_id, 'descripcion' => $this->descripcion]);
         $this->reset(['olt', 'vlan_id', 'descripcion']);
-        $this->dispatch('close-modal'); // Cierra el modal de VLAN
+        $this->dispatch('close-modal'); 
     }
 
     public function eliminar($id) {
@@ -56,7 +56,7 @@ class Vlans extends Component
     {
         return view('livewire.vlans', [
             'vlans' => Vlan::all(),
-            'maestros' => Maestro::latest()->take(5)->get() // Enviamos los usuarios a la vista
+            'maestros' => Maestro::latest()->take(5)->get()
         ]);
     }
 }
