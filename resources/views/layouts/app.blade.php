@@ -3,72 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de VLAN</title>
+    <title>Mi Empresa S.A.</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
     @livewireStyles
     <style>
-        body { 
-            font-family: 'Tahoma', sans-serif; 
-            background-color: #f4f7f6; /* Un gris más claro para resaltar el panel */
+        body {
+            background-color: #f8f9fa;
         }
+        /* Estructura de la Barra Lateral (Sidebar) */
         .sidebar {
-            min-height: 100vh;
-            background: #ffffff;
-            border-right: 1px solid #dee2e6;
+            width: 260px;
+            height: 100vh;
+            position: fixed; /* Esto la mantiene fija a la izquierda */
+            left: 0;
+            top: 0;
+            background-color: #1a1a1a; /* El color negro del ejemplo */
+            z-index: 1000;
             padding-top: 20px;
         }
+        /* Ajuste del contenido principal para que no se oculte tras la barra */
+        .main-content {
+            margin-left: 260px; /* Debe ser igual al ancho de la barra */
+            padding: 30px;
+            width: calc(100% - 260px);
+        }
+        /* Estilos de los enlaces del menú */
         .nav-link {
-            color: #333;
-            padding: 12px 20px;
-            border-radius: 5px;
-            margin: 5px 10px;
+            color: #bdc3c7;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
         }
         .nav-link:hover {
-            background-color: #e9ecef;
+            background-color: #2c3e50;
+            color: #ffffff;
         }
         .nav-link.active {
-            background-color: #0d6efd;
-            color: white !important;
+            background-color: #34495e;
+            color: #ffffff;
+            border-left: 4px solid #3498db;
         }
-        .main-content {
-            padding: 30px;
+        .sidebar-brand {
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-weight: bold;
+            border-bottom: 1px solid #2c3e50;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar shadow-sm">
-                <div class="px-3 mb-4">
-                    <h5 class="fw-bold text-primary">TecNet</h5>
-                </div>
-                
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('vlans') ? 'active' : '' }}" href="{{ route('vlans') }}">
-                            <i class="bi bi-diagram-3 me-2"></i> Vlan
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('maestros') ? 'active' : '' }}" href="{{ route('maestros') }}">
-                            <i class="bi bi-person-workspace me-2"></i> Tabla de Maestros
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+    <div class="sidebar shadow">
+        <div class="sidebar-brand">
+            <i class="bi bi-cpu fs-3"></i>
+            <div class="mt-2">Mi Empresa S.A.</div>
+        </div>
+        
+        <nav class="nav flex-column">
+            <a class="nav-link {{ request()->routeIs('vlans') ? 'active' : '' }}" href="{{ route('vlans') }}">
+                <i class="bi bi-diagram-3 me-3"></i> Gestión VLAN
+            </a>
+            <a class="nav-link {{ request()->routeIs('maestros') ? 'active' : '' }}" href="{{ route('maestros') }}">
+                <i class="bi bi-people me-3"></i> Maestros y Alumnos
+            </a>
+            <a class="nav-link" href="#">
+                <i class="bi bi-gear me-3"></i> Configuración
+            </a>
+        </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
-                <div class="bg-white p-4 rounded-3 shadow-sm">
-                    {{ $slot }}
-                </div>
-            </main>
+        <div class="position-absolute bottom-0 w-100 p-3">
+            <button class="btn btn-outline-light btn-sm w-100">
+                <i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión
+            </button>
         </div>
     </div>
 
+    <main class="main-content">
+        {{ $slot }}
+    </main>
+
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Escuchadores para cerrar modales automáticamente
+        window.addEventListener('close-modal', event => {
+            const modal = bootstrap.Modal.getInstance(document.querySelector('.modal.show'));
+            if (modal) modal.hide();
+        });
+    </script>
 </body>
 </html>
