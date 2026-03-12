@@ -32,10 +32,9 @@ class Maestros extends Component
     }
 
     public function render()
-{
-    // Cambiamos 'livewire.maestros' por 'components.maestros'
-    return view('components.maestros', [
-        'maestros' => Maestro::all()
-    ]);
-}
+    {
+        return view('components.maestros.maestros', [
+            'maestros' => \App\Models\Maestro::all()
+        ]);
+    }
 }
